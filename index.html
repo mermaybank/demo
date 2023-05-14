@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Weather Website</title>
+
+
+</head>
+<body>
+
+
+</head>
+<body>
+  <ul>
+    <li><a href="index.html">Daily Weather</a></li>
+    <li><a href="radar.html">Radars</a><li>
+       <a href="#">World Weather ▾</a>
+       <ul class="dropdown">
+        <li><a href="news.html">Weather News</a></li>
+        <li><a href="world.html">Daily Weather</a></li>
+        <li><a href="#">Temp Radar</a></li>
+        <li><a href="#">UV Radar</a></li>
+       </ul>
+       </li>
+       <li><a href="weekly.html">Weekly Weather</a></li>
+ </ul>
+</body>
+</html>
+
+  
+    <style>
+    * {
+    padding: 0;
+    margin: 0;
+    font-family: monospace;
+    }
+    ul {
+    list-style: none;
+    background: #5e6669;
+    }
+    ul li {
+    display: inline-block;
+    position: relative;
+    }
+    ul li a {
+    display: block;
+    padding: 20px 25px;
+    color: #FFF;
+    text-decoration: none;
+    text-align: center;
+    font-size: 20px;
+    }
+    ul li ul.dropdown li {
+    display: block;
+    }
+    ul li ul.dropdown {
+    width: 100%;
+    background: #5e6669;
+    position: absolute;
+    z-index: 999;
+    display: none;
+    }
+    ul li a:hover {
+    background: #5e6669;
+    }
+    ul li:hover ul.dropdown {
+    display: block;
+    }
+    
+    #widget-iframe {padding-top: 10%; margin-right: 80%;} 
+
+    </style>
+
+<iframe id="widget-iframe" width="160px" height="271px"
+ src="https://services.metservice.com/weather-widget/widget?params=white|large|portrait|days-1|classic&loc=auckland&type=urban" allowtransparency="true" style="border:none"></iframe>
+
+ <head>
+  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <section class="main">
+      <section class="inputs">
+        <input type="text" placeholder="Enter any city..." id="cityinput">
+        <input type="submit" value="Submit" id="add">
+        <button placeholder="submit" id="add"></button>
+      </section>
+
+      <section class="display">
+        <div class="wrapper">
+          <h2 id="cityoutput"></h2>
+          <p id="description"></p>
+          <p id="temp"></p>
+          <p id="wind"></p>
+        </div>
+      </section>
+    </section>
+
+  </div>
+
+
+  <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container-fluid
+{
+    width: 400px;
+    margin: 60px auto;
+    padding: 10px;
+}
+.inputs 
+{
+    padding: 2rem 0 2rem 0;
+    text-align: center;
+    justify-content: center;
+    background: white;
+}
+.inputs input[type="text"] 
+{
+    height: 4rem;
+    width: 20rem;
+    background: #212121;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    border: 2px solid #c2c2c2;
+    border-radius: 2px;
+    margin-right:4px ;
+}
+.inputs input[type="submit"] 
+{
+    height: 3rem;
+    width: 6rem;
+    background: #5e6669;
+    font-weight: bold;
+    color: white;
+    font-size: 1rem;
+    margin-top: 20px;
+    border: none;
+    border-radius: 2px;
+}
+.display 
+{
+    text-align: center;
+    width: 400px;
+    color: #16a864;
+}
+.wrapper 
+{
+    margin: 0 9rem;
+    background-color: white;
+    height: 45vh;
+    margin: 50px auto;
+    border-radius: 2px;
+}
+
+.wrapper h2
+{
+    padding: 5px 0;
+    text-align: center;
+    background: #5e6669;
+    color: white;
+    font-family: sans-serif;
+}
+.wrapper p
+{
+    margin:20px 50px;
+    margin-right: 20px;
+    text-align: left;
+    color: #04214c;
+    font-size:23px;
+}
+.wrapper h2 span
+{
+    font-size: 26px;
+    color: #c1cdd6;
+}
+.wrapper p span
+{
+    color: #5e6669;
+    font-size: 25px;
+}
+
+
+</style>
+
+<script>
+  var inputval = document.querySelector('#cityinput')
+var btn = document.querySelector('#add');
+var city = document.querySelector('#cityoutput')
+var descrip = document.querySelector('#description')
+var temp = document.querySelector('#temp')
+var wind = document.querySelector('#wind')
+apik = "3045dd712ffe6e702e3245525ac7fa38"
+function convertion(val)
+{
+    return (val - 273).toFixed(2)
+}
+
+btn.addEventListener('click', function()
+{
+  fetch('https://api.openweathermap.org/data/2.5/weather?q='+inputval.value+'&appid='+apik)
+  .then(res => res.json())
+
+
+  .then(data => 
+  {
+    var nameval = data['name']
+    var descrip = data['weather']['0']['description']
+    var tempature = data['main']['temp']
+    var wndspd = data['wind']['speed']
+    city.innerHTML=`Weather of <span>${nameval}<span>`
+    temp.innerHTML = `Temperature: <span>${ convertion(tempature)} C</span>`
+    description.innerHTML = `Sky Conditions: <span>${descrip}<span>`
+    wind.innerHTML = `Wind Speed: <span>${wndspd} km/h<span>`
+
+  })
+
+  .catch(err => alert('You entered Wrong city name'))
+})
+</script>
+
+<style>
+body {background-image: url("sky.jpeg");}
+body {background-image: url(mtt.jpeg); background-repeat: no-repeat; background-size: cover; 
+text-align: center; background-attachment: fixed;}
+</style>
+
+</body>
+</html>
+
